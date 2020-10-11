@@ -94,7 +94,7 @@ fun fib(n: Int): Int {
     if (n < 3) return 1
     var a = 1
     var b = 1
-    var c = 2
+    var c = a + b
     for (i in 3..n) {
         c = a + b
         a = b
@@ -233,9 +233,11 @@ fun isPalindrome(n: Int): Boolean = n == revert(n)
  */
 fun hasDifferentDigits(n: Int): Boolean {
     var a = n
-    while (a > 9)
-        if (a % 10 != a / 10 % 10) return true
+    while (a > 9) {
+        var c = a % 10
+        if (c != a / 10 % 10) return true
         else a /= 10
+    }
     return false
 }
 
