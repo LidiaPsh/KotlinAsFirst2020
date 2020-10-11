@@ -104,7 +104,7 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double =
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
 fun thirdDigit(number: Int): Int =
-    (number / 100) % 10
+    number / 100 % 10
 
 /**
  * Простая (2 балла)
@@ -114,10 +114,9 @@ fun thirdDigit(number: Int): Int =
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
 fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int {
-    val t1 = (hoursDepart * 60) + minutesDepart
-    val t2 = (hoursArrive * 60) + minutesArrive
-    val t3 = t2 - t1
-    return t3
+    val t1 = hoursDepart * 60 + minutesDepart
+    val t2 = hoursArrive * 60 + minutesArrive
+    return t2 - t1
 }
 
 /**
@@ -138,8 +137,8 @@ fun accountInThreeYears(initial: Int, percent: Int): Double = (1 + percent / 100
  */
 fun numberRevert(number: Int): Int {
     val x3 = number % 10
-    val x2 = (number / 10) % 10
+    val x2 = number / 10 % 10
     val x1 = number / 100
-    val y1 = (x3 * 100) + (x2 * 10) + x1
-    return y1
+    return x3 * 100 + x2 * 10 + x1
+
 }
