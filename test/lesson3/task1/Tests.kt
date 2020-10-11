@@ -144,6 +144,8 @@ class Tests {
         assertEquals(2089830349, lcm(23579, 88631))
         assertEquals(2022222222, lcm(2, 1011111111))
         assertEquals(2022222222, lcm(1011111111, 2))
+        assertEquals(100000, lcm(100000, 100000))
+        assertEquals(10000, lcm(10000, 10000))
     }
 
     @Test

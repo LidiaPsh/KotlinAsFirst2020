@@ -162,7 +162,7 @@ fun collatzSteps(x: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = m * n / gcm(m, n)
+fun lcm(m: Int, n: Int): Int = if (m == n) m else m * n / gcm(m, n)
 
 
 //algoritm evklida
