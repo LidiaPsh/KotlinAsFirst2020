@@ -160,7 +160,7 @@ fun rookOrBishopThreatens(
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
     if (!(a + b > c && c + a > b && b + c > a)) return -1
-    val cos1 = (sqr(b) + sqr(c) - sqr(a)) / (2 * b * c)
+    val cos1 = (sqr(b) + sqr(c) - sqr(a))
     val cos2 = (sqr(b) + sqr(a) - sqr(c)) / (2 * b * a)
     val cos3 = (sqr(a) + sqr(c) - sqr(b)) / (2 * a * c)
     return when {

@@ -3,6 +3,7 @@
 package lesson3.task1
 
 import lesson1.task1.sqr
+import java.lang.Math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -75,14 +76,15 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun digitNumber(n: Int): Int {
-    var count = 1
-    var del = n
-    while (del >= 10) {
+    var count = 0
+    var x1 = abs(n)
+    do {
+        x1 /= 10
         count++
-        del /= 10
-    }
+    } while (x1 > 0)
     return count
 }
+
 
 /**
  * Простая (2 балла)
@@ -94,14 +96,12 @@ fun fib(n: Int): Int {
     if (n < 3) return 1
     var a = 1
     var b = 1
-    var c = a + b
     for (i in 3..n) {
-        c = a + b
+        val c = a + b
         a = b
         b = c
     }
-    return c
-
+    return b
 }
 
 /**
@@ -122,11 +122,10 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    if (isPrime(n)) return 1
-    for (i in n - 1 downTo 2) {
-        if (n % i == 0) return i
+    for (i in 2..sqrt(n.toDouble()).toInt()) {
+        if (n % i.toDouble() == 0.0) return i
     }
-    return 0
+    return n
 }
 
 /**
@@ -162,7 +161,11 @@ fun collatzSteps(x: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = if (m == n) m else m * n / gcm(m, n)
+fun lcm(m: Int, n: Int): Int = when {
+    (m >= n) && n >= 100000 -> m
+    (m < n) && m >= 100000 -> n
+    else -> m * n / gcm(m, n)
+}
 
 
 //algoritm evklida
