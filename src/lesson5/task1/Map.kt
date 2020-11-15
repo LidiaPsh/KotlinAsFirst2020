@@ -174,10 +174,10 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> =
  */
 fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
     val mapC = (mapA + mapB).toMutableMap()
-    for (key in mapA.keys) {
-        if ((mapA[key] != mapB[key]) && (mapB[key] != null)) {
-            var result = mapA[key] + ", " + mapB[key]
-            mapC[key] = result
+    for ((key, value) in mapA) {
+        var c = mapB[key]
+        if ((mapA[key] != c) && (c != null)) {
+            mapC[key] = mapA[key] + ", " + c
         }
     }
     return mapC
@@ -261,7 +261,7 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean =
 fun extractRepeats(list: List<String>): Map<String, Int> {
     val result = mutableMapOf<String, Int>()
     for (key in list) result[key] = (result[key] ?: 0) + 1
-    return result.filter { it.value > 1 }
+    return result.filterValues { it > 1 }
 }
 
 /**
@@ -279,9 +279,11 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
 fun hasAnagrams(words: List<String>): Boolean {
     val result = mutableSetOf<Map<Char, Int>>()
     for (element in words) {
-        val map = mutableMapOf<Char, Int>()
-        for (element1 in element) map[element1] = map.getOrDefault(element1, 0) + 1
-        result += map
+        if (result.size != words.size) {
+            val map = mutableMapOf<Char, Int>()
+            for (element1 in element) map[element1] = map.getOrDefault(element1, 0) + 1
+            result += map
+        }
     }
     return (result.size != words.size)
 }
