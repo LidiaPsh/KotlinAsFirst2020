@@ -160,12 +160,14 @@ fun rookOrBishopThreatens(
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
     if (!(a + b > c && c + a > b && b + c > a)) return -1
-    val cos1 = (sqr(b) + sqr(c) - sqr(a))
-    val cos2 = (sqr(b) + sqr(a) - sqr(c)) / (2 * b * a)
-    val cos3 = (sqr(a) + sqr(c) - sqr(b)) / (2 * a * c)
+    val longest = maxOf(a, b, c)
+    val second = minOf(a, b, c)
+    val third= a + b + c - longest - second
+    val cos = (sqr(second) + sqr(third) - sqr(longest)) / (2 * second * third)
+
     return when {
-        cos1 * cos2 * cos3 == 0.0 -> 1
-        cos1 < 0 || cos2 < 0 || cos3 < 0 -> 2
+        cos == 0.0 -> 1
+        cos < 0 -> 2
         else -> 0
     }
 }
@@ -183,7 +185,7 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
         b == c -> 0
         a == c && b == d || c < b && d > b && a < c -> b - c
         //c < b && d > b && a < c -> b - c
-        a in c..d && b > d -> d-a
+        a in c..d && b > d -> d - a
         a < c && d < b -> d - c
         c < a && b < d -> b - a
         else -> -1

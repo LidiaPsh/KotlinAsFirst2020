@@ -20,7 +20,7 @@ import kotlin.math.sqrt
 fun factorial(n: Int): Double {
     var result = 1.0
     for (i in 1..n) {
-        result = result * i // Please do not fix in master
+        result *= i // Please do not fix in master
     }
     return result
 }
@@ -122,10 +122,10 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    for (i in 2..sqrt(n.toDouble()).toInt()) {
-        if (n % i.toDouble() == 0.0) return i
-    }
-    return n
+    if (isPrime(n)) return 1
+    for (i in n - 1 downTo sqrt(n.toDouble()).toInt())
+        if (n % i == 0) return i
+    return 1
 }
 
 /**
@@ -178,6 +178,7 @@ fun gcm(m: Int, n: Int): Int {
     }
     return a + b
 }
+
 
 /**
  * Средняя (3 балла)
@@ -238,8 +239,8 @@ fun hasDifferentDigits(n: Int): Boolean {
     var a = n
     while (a > 9) {
         var c = a % 10
-        if (c != a / 10 % 10) return true
-        else a /= 10
+        a /= 10
+        if (c != a % 10) return true
     }
     return false
 }

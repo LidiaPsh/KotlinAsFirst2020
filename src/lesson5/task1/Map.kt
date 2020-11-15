@@ -2,7 +2,7 @@
 
 package lesson5.task1
 
-import kotlinx.html.I
+//import kotlinx.html.I
 
 // Урок 5: ассоциативные массивы и множества
 // Максимальное количество баллов = 14
@@ -139,11 +139,10 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
  *     -> a changes to mutableMapOf() aka becomes empty
  */
 fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
-    val delete = mutableListOf<String>()
-    for ((key, value) in a) {
-        if (b[key] == value) delete.add(key)
+    for ((key, value) in b) {
+        if (a[key] == value) a -= key
     }
-    a -= delete
+
 }
 
 /**
@@ -153,15 +152,8 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
  * В выходном списке не должно быть повторяюихся элементов,
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
-fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
-    val list = mutableListOf<String>()
-    for (i in 0 until b.size) {
-        for (element in a) {
-            if (b[i] == element) list.add(element)
-        }
-    }
-    return list
-}
+fun whoAreInBoth(a: List<String>, b: List<String>): List<String> =
+    a.toSet().intersect(b.toSet()).toList()
 
 /**
  * Средняя (3 балла)

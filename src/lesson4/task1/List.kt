@@ -153,7 +153,7 @@ fun mean(list: List<Double>): Double {
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    var v = mean(list)
+    val v = mean(list)
     for (i in 0 until list.size) {
         list[i] -= v
     }
@@ -169,7 +169,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  */
 fun times(a: List<Int>, b: List<Int>): Int {
     var c = 0
-    for (i in 0 until a.size) {
+    for (i in a.indices) {
         c += a[i] * b[i]
     }
     return c
@@ -248,14 +248,12 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString("*")
 fun convert(n: Int, base: Int): List<Int> {
     var newN = n
     val list = mutableListOf<Int>()
-    if (n != 0) {
-        while (newN > 0) {
-            list.add(newN % base)
-            newN /= base
-        }
-        return list.reversed()
+    if (n == 0) return listOf(0)
+    while (newN > 0) {
+        list.add(newN % base)
+        newN /= base
     }
-    return listOf(0)
+    return list.reversed()
 }
 
 /**
@@ -270,22 +268,22 @@ fun convert(n: Int, base: Int): List<Int> {
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, n.toString(base) и подобные), запрещается.
  */
-fun convertToString(n: Int, base: Int): String {
-    var newN = n
-    var str = ""
-    if (n != 0) {
-        while (newN > 0) {
-            var c = newN % base
-            newN /= base
-            when (c) {
-                in 0..9 -> str += c.toString()
-                else -> str += 'a' + c - 10
-            }
-        }
-        return str.reversed()
-    }
-    return "0"
-}
+fun convertToString(n: Int, base: Int): String =
+    convert(n, base).map { if (it > 9) 'a' + it - 10 else '0' + it }.joinToString("")
+/* var newN = n
+ var str = ""
+ if (n != 0) {
+     while (newN > 0) {
+         val c = newN % base
+         newN /= base
+         when (c) {
+             in 0..9 -> str += c.toString()
+             else -> str += 'a' + c - 10
+         }
+     }
+     return str.reversed()
+ }
+ return "0"*/
 
 /**
  * Средняя (3 балла)
