@@ -2,6 +2,10 @@
 
 package lesson6.task1
 
+import kotlinx.html.InputType
+import lesson2.task2.daysInMonth
+import java.lang.IllegalArgumentException
+
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
 // Рекомендуемое количество баллов = 11
@@ -16,8 +20,8 @@ package lesson6.task1
 fun timeStrToSeconds(str: String): Int {
     val parts = str.split(":")
     var result = 0
-    for (part in parts) {
-        val number = part.toInt()
+    for (element in parts) {
+        val number = element.toInt()
         result = result * 60 + number
     }
     return result
@@ -74,11 +78,25 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val date = str.split(" ")
+    val list = listOf(
+        "января", "февраля", "марта", "апреля", "мая",
+        "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"
+    )
+    var month = 0
+    if (date.size == 3)
+        for (element in list) {
+            if (date[1] == element) month = list.indexOf(element) + 1
+        }
+    return if (month <= 0 || date[0].toInt() > daysInMonth(month, date[2].toInt())) ""
+    else
+        String.format("%02d.%02d.%4d", date[0].toInt(), month, date[2].toInt())
+}
 
 /**
  * Средняя (4 балла)
- *
+
  * Дата представлена строкой вида "15.07.2016".
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
@@ -114,7 +132,20 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    var max = -1
+    val theBest = mutableListOf<Int>()
+    val all = jumps.split(' ')
+    return try {
+        for (element in all)
+            if (element != " " && element != "%" && element != "-") theBest += element.toInt()
+        for (element01 in theBest)
+            max = maxOf(element01, max)
+        if (theBest.isNotEmpty()) max else -1
+    } catch (e: NumberFormatException) {
+        -1
+    }
+}
 
 /**
  * Сложная (6 баллов)
@@ -127,7 +158,20 @@ fun bestLongJump(jumps: String): Int = TODO()
  * При нарушении формата входной строки, а также в случае отсутствия удачных попыток,
  * вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    var max = -1
+    val theBest = mutableListOf<Int>()
+    val all = jumps.split(" ")
+    return try {
+        for (i in 0 until all.size - 1)
+            if (all[i + 1] == "+" || all[i + 1] == "$+" || all[i + 1] == "$$+") theBest += all[i].toInt()
+        for (element in theBest)
+            max = maxOf(element, max)
+        if (theBest.isNotEmpty()) max else -1
+    } catch (e: NumberFormatException) {
+        -1
+    }
+}
 
 /**
  * Сложная (6 баллов)
@@ -136,7 +180,7 @@ fun bestHighJump(jumps: String): Int = TODO()
  * использующее целые положительные числа, плюсы и минусы, разделённые пробелами.
  * Наличие двух знаков подряд "13 + + 10" или двух чисел подряд "1 2" не допускается.
  * Вернуть значение выражения (6 для примера).
- * Про нарушении формата входной строки бросить исключение IllegalArgumentException
+ * При нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int = TODO()
 
