@@ -2,7 +2,6 @@
 
 package lesson5.task1
 
-//import kotlinx.html.I
 
 // Урок 5: ассоциативные массивы и множества
 // Максимальное количество баллов = 14
@@ -153,7 +152,7 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
 fun whoAreInBoth(a: List<String>, b: List<String>): List<String> =
-    a.toSet().intersect(b.toSet()).toList()
+    a.intersect(b).toList()
 
 /**
  * Средняя (3 балла)
@@ -175,9 +174,10 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> =
 fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
     val mapC = (mapA + mapB).toMutableMap()
     for ((key, value) in mapA) {
-        var c = mapB[key]
-        if ((mapA[key] != c) && (c != null)) {
-            mapC[key] = mapA[key] + ", " + c
+        val c = mapB[key]
+        val b = mapA[key]
+        if ((b != c) && (c != null)) {
+            mapC[key] = b + ", " + c
         }
     }
     return mapC
