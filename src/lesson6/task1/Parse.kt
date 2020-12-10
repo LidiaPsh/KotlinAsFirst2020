@@ -134,17 +134,16 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  */
 fun bestLongJump(jumps: String): Int {
     var max = -1
-    val theBest = mutableListOf<Int>()
     val all = jumps.split(' ')
-    return try {
-        for (element in all)
-            if (element != " " && element != "%" && element != "-") theBest += element.toInt()
-        for (element01 in theBest)
-            max = maxOf(element01, max)
-        if (theBest.isNotEmpty()) max else -1
-    } catch (e: NumberFormatException) {
-        -1
+    for (element in all) {
+        if (element != "%" && element != "-") {
+            val elem = element.toIntOrNull()
+            if (elem == null) return -1
+            else max = maxOf(elem, max)
+        }
+
     }
+    return max
 }
 
 /**
@@ -162,15 +161,18 @@ fun bestHighJump(jumps: String): Int {
     var max = -1
     val theBest = mutableListOf<Int>()
     val all = jumps.split(" ")
-    return try {
-        for (i in 0 until all.size - 1)
-            if (all[i + 1] == "+" || all[i + 1] == "$+" || all[i + 1] == "$$+") theBest += all[i].toInt()
-        for (element in theBest)
-            max = maxOf(element, max)
-        if (theBest.isNotEmpty()) max else -1
-    } catch (e: NumberFormatException) {
-        -1
+    for (i in 0 until all.size - 1 step 2) {
+        if (!all[i + 1].matches(Regex("""^\%*[\-\+\%]$"""))) {
+            return -1
+        }
+        if (all[i + 1].last() == '+') {
+            val element = all[i].toIntOrNull()
+            if (element == null) return -1
+            else max = maxOf(element, max)
+        }
+
     }
+    return max
 }
 
 /**
