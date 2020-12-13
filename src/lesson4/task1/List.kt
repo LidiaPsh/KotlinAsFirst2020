@@ -310,15 +310,28 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
-    val numbers = listOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
-    val romanNumber = listOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
+    val romanNum = listOf(
+        1000 to "M",
+        900 to "CM",
+        500 to "D",
+        400 to "CD",
+        100 to "C",
+        90 to "XC",
+        50 to "L",
+        40 to "XL",
+        10 to "X",
+        9 to "IX",
+        5 to "V",
+        4 to "IV",
+        1 to "I"
+    )
     var n1 = n
     var i = 0
     val str = StringBuilder()
     while (n1 > 0) {
-        if (n1 >= numbers[i]) {
-            str.append(romanNumber[i])
-            n1 -= numbers[i]
+        if (n1 >= romanNum[i].first) {
+            str.append(romanNum[i].second)
+            n1 -= romanNum[i].first
         } else i++
     }
     return str.toString()
@@ -334,21 +347,21 @@ fun roman(n: Int): String {
 fun russian(n: Int): String =
     listOf(
         n100(n / 1000),
-        n10(n / 1000 % 100),
-        n1(n / 1000 % 100, true),
-        n1000(n),
+        n10(n / 1000),
+        n1(n / 1000, true),
+        n1000(n / 1000),
         n100(n),
         n10(n),
         n1(n, false)
     ).filter { it.isNotEmpty() }.joinToString(" ")
 
-val arr11 = arrayOf(
+val list11 = listOf(
     "", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять", "десять",
     "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать",
     "восемнадцать", "девятнадцать"
 )
 
-val arr12 = arrayOf(
+val list12 = listOf(
     "", "одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять", "десять",
     "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать",
     "восемнадцать", "девятнадцать"
@@ -357,8 +370,8 @@ val arr12 = arrayOf(
 fun n1(x: Int, thousands: Boolean): String {
     val p100 = x % 100
     return if (thousands)
-        if (p100 < 20) arr12[p100] else arr12[p100 % 10]
-    else if (p100 < 20) arr11[p100] else arr11[p100 % 10]
+        if (p100 < 20) list12[p100] else list12[p100 % 10]
+    else if (p100 < 20) list11[p100] else list11[p100 % 10]
 }
 
 val list10 =
@@ -398,8 +411,8 @@ fun n100(x: Int): String {
 
 fun n1000(x: Int): String {
     val xNew: Int
-    return if (x > 999) {
-        xNew = if (x / 1000 % 100 > 20) x / 1000 % 10 else x / 1000 % 100
+    return if (x > 0) {
+        xNew = if (x % 100 > 20) x % 10 else x % 100
         when (xNew) {
             1 -> "тысяча"
             in 2..4 -> "тысячи"
