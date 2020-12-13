@@ -328,11 +328,11 @@ fun roman(n: Int): String {
     var n1 = n
     var i = 0
     val str = StringBuilder()
-    while (n1 > 0) {
-        if (n1 >= romanNum[i].first) {
-            str.append(romanNum[i].second)
-            n1 -= romanNum[i].first
-        } else i++
+    romanNum.forEach { (value, symbol) ->
+        while (n1 >= value) {
+            n1 -= value
+            str.append(symbol)
+        }
     }
     return str.toString()
 }
