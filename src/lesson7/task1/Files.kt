@@ -131,8 +131,9 @@ fun centerFile(inputName: String, outputName: String) {
     File(outputName).bufferedWriter().use {
         for (string in txt) {
             val lineLength = string.length
-            val res = String.format("%${(maximum + lineLength) / 2}s", string) + "\n"
+            val res = String.format("%${(maximum + lineLength) / 2}s", string)
             it.write(res)
+            it.newLine()
             print(res)
         }
     }
@@ -167,32 +168,32 @@ fun centerFile(inputName: String, outputName: String) {
  * 8) Если входной файл удовлетворяет требованиям 1-7, то он должен быть в точности идентичен выходному файлу
  */
 fun alignFileByWidth(inputName: String, outputName: String) {
-    val text = mutableListOf<List<String>>()
-    val lenghtLines = mutableListOf<Int>()
+    val text = mutableListOf<Pair<Int, List<String>>>()
     var maxLen = 0
     for (line in File(inputName).readLines()) {
         val res = line.trim().split(" ").filter { it != "" }
-        var lenWords = res.fold(0) { preview, it -> preview + it.length }
+        var lenWords = res.sumOf { it.length }
         if (lenWords != 0) lenWords += (res.size - 1)
-        lenghtLines.add(lenWords)
         maxLen = maxOf(maxLen, lenWords)
-        if (res.isEmpty()) text.add(listOf("")) else text.add(res)
+        text.add(Pair(lenWords, res))
     }
     File(outputName).bufferedWriter().use {
-        for ((index, line) in text.withIndex()) {
-            if (line.size == 1) {
-                it.write(line[0] + "\n")
-                continue
+        text.forEach { (len, line) ->
+            if (line.count() <= 1) {
+                if (line.count() == 1) it.write(line.first())
+                it.newLine()
+            } else {
+                val dif = maxLen - len
+                val countPosSpaces = line.count() - 1
+                val divSpaces = dif / countPosSpaces
+                var modSpaces = dif % countPosSpaces
+                for (i in 0..line.count() - 2) {
+                    it.write(line[i] + " ".repeat(divSpaces + 1 + if (modSpaces > 0) 1 else 0))
+                    modSpaces--
+                }
+                it.write(line.last())
+                it.newLine()
             }
-            val dif = maxLen - lenghtLines[index]
-            val countPosSpaces = line.size - 1
-            val divSpaces = dif / countPosSpaces
-            var modSpaces = dif % countPosSpaces
-            for (i in 0..line.size - 2) {
-                it.write(line[i] + " ".repeat(divSpaces + 1 + if (modSpaces > 0) 1 else 0))
-                modSpaces--
-            }
-            it.write(line.last() + "\n")
         }
     }
 }
