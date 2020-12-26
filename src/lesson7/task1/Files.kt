@@ -3,6 +3,7 @@
 package lesson7.task1
 
 import java.io.File
+import java.lang.IllegalArgumentException
 
 // Урок 7: работа с файлами
 // Урок интегральный, поэтому его задачи имеют сильно увеличенную стоимость
@@ -501,5 +502,82 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
  */
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     TODO()
+}
+
+/**
+ *Дан текстовый файл, в котором схематично изображена схема прямоугольного мини-лабиринта:
+- во всех строках одинаковое количество символов
+- символ # обозначает препятствие, символ . свободное место, символ C местоположение камеры в лабиринте (камера одна)
+
+Функция, которую нужно написать, принимает как параметр имя этого файла.
+Она должна выбрать и вернуть как результат количество свободных точек лабиринта, попадающих в зону обозрения камеры, причём:
+- зона обозрения камеры — это прямые линии от точки её расположения,
+идущие в 8 направлениях по горизонтали, вертикали и диагонали.
+Сквозь препятствия камера видеть не может (похоже на ход шахматного ферзя).
+
+Банальный пример
+xxx..
+xC#..
+xxx..
+.#.x.
+
+здесь зона обозрения камеры показана символами x, в неё входит всего 8 точек.
+ */
+
+fun countVisibleCell(inputName: String): Int {
+    // направления от камеры: 8 шт
+    val direction = listOf(
+        //  Left    Right       Up       Down
+        (-1 to 0), (1 to 0), (0 to -1), (0 to 1),
+        // UpLeft    DownLeft   UpRight   DownRight
+        (-1 to -1), (-1 to 1), (1 to -1), (1 to 1)
+    )
+    //val room = listOf(".....", ".C#..", ".....", ".#...") (пример)
+    // загрузка данных из файла
+    val room = File(inputName).readLines()
+    // проверки:
+    // 1 есть ли в файле хотя бы одна строка
+    if (room.isEmpty()) throw IllegalArgumentException("Empty input file")
+    // 2 строка не пустая
+    if (room.first().isEmpty()) throw IllegalArgumentException("Empty input strings")
+    // 3 длины всех строк равны между собой
+    if (room.count() != room.count { it.length == room.first().length }) throw IllegalArgumentException("Different line sizes")
+    // диапазон индексов по горизонтали
+    val zoneX = room.first().indices
+    // диапазон индексов по вертикали
+    val zoneY = room.indices
+    // поиск камеры!
+    var camX = -1
+    var camY = -1
+    for (i in zoneY) {
+        if ('C' in room[i]) {
+            // камера должна быть одна
+            if (camY > -1) throw IllegalArgumentException("Too many Cams")
+            // запоминаем координаты камеры
+            camY = i
+            camX = room[i].indexOf('C')
+        }
+    }
+    // если камера не найдена, то ошибка
+    if (camX < 0) throw IllegalArgumentException("Cam not found")
+    // инициализируем счетчик
+    var count = 0
+    // просматриваем все 8 возможных направлений
+    direction.forEach { (stepX, stepY) ->
+        // первый шаг от камеры в проверяемом направлении
+        var curX = camX + stepX
+        var curY = camY + stepY
+        // продолжаем пока координаты находятся внутри зоны
+        while (curX in zoneX && curY in zoneY) {
+            // если нет свободной клетки, то останавливаем просмотр
+            if (room[curY][curX] != '.') break
+            // увеличиваем счетчик
+            count++
+            // делаем следующий шаг в проверяемом направлении
+            curX += stepX
+            curY += stepY
+        }
+    }
+    return count
 }
 

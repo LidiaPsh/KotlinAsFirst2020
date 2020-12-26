@@ -1,5 +1,6 @@
 package lesson7.task1
 
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
@@ -441,4 +442,27 @@ Basic, Ruby, Swift.
 
         File("temp.txt").delete()
     }
+
+    @Test
+    @Tag("Special")
+    fun countVisibleCell() {
+        assertEquals(8, lesson6.task1.countVisibleCell("input/cell.txt"))
+        assertEquals(52, lesson6.task1.countVisibleCell("input/cell2.txt"))
+        Assertions.assertThrows(IllegalArgumentException::class.java) { lesson6.task1.countVisibleCell("input/cell_empty.txt") }
+        Assertions.assertThrows(IllegalArgumentException::class.java) { lesson6.task1.countVisibleCell("input/cell_size.txt") }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
