@@ -532,7 +532,6 @@ fun countVisibleCell(inputName: String): Int {
         // UpLeft    DownLeft   UpRight   DownRight
         (-1 to -1), (-1 to 1), (1 to -1), (1 to 1)
     )
-    //val room = listOf(".....", ".C#..", ".....", ".#...") (пример)
     // загрузка данных из файла
     val room = File(inputName).readLines()
     // проверки:

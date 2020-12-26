@@ -446,10 +446,10 @@ Basic, Ruby, Swift.
     @Test
     @Tag("Special")
     fun countVisibleCell() {
-        assertEquals(8, lesson6.task1.countVisibleCell("input/cell.txt"))
-        assertEquals(52, lesson6.task1.countVisibleCell("input/cell2.txt"))
-        Assertions.assertThrows(IllegalArgumentException::class.java) { lesson6.task1.countVisibleCell("input/cell_empty.txt") }
-        Assertions.assertThrows(IllegalArgumentException::class.java) { lesson6.task1.countVisibleCell("input/cell_size.txt") }
+        assertEquals(8, countVisibleCell("input/cell.txt"))
+        assertEquals(52, countVisibleCell("input/cell2.txt"))
+        Assertions.assertThrows(IllegalArgumentException::class.java) { countVisibleCell("input/cell_empty1.txt") }
+        Assertions.assertThrows(IllegalArgumentException::class.java) { countVisibleCell("input/cell_size.txt") }
     }
 }
 
