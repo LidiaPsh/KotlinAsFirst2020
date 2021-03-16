@@ -106,6 +106,8 @@ class Complex(val re: Double, val im: Double) {
         return re == other.re && im == other.im
     }
 
+    override fun hashCode(): Int = super.hashCode()
+
     /**
      * Преобразование в строку
      */
@@ -118,5 +120,6 @@ class Complex(val re: Double, val im: Double) {
             im == -1.0 -> "${re}-i"
             else -> if (im > 0) "${re}+${im}i" else "${re}${im}i"
         }
+
 
 }
