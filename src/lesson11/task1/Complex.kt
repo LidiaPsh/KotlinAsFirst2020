@@ -98,17 +98,6 @@ class Complex(val re: Double, val im: Double) {
     }
 
     /**
-     * Сравнение на равенство
-     */
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is Complex) return false
-        return re == other.re && im == other.im
-    }
-
-    override fun hashCode(): Int = super.hashCode()
-
-    /**
      * Преобразование в строку
      */
     override fun toString(): String =
@@ -120,6 +109,24 @@ class Complex(val re: Double, val im: Double) {
             im == -1.0 -> "${re}-i"
             else -> if (im > 0) "${re}+${im}i" else "${re}${im}i"
         }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Complex
+
+        if (re != other.re) return false
+        if (im != other.im) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = re.hashCode()
+        result = 31 * result + im.hashCode()
+        return result
+    }
 
 
 }
